@@ -5,11 +5,13 @@ import router from './router'
 import store from './store'
 
 import Layout from '@/components/Layout.vue'
+import Icon from '@/components/Icon.vue'
 
 Vue.config.productionTip = false
 
 // 全局使用Layout组件
 Vue.component('Layout',Layout)
+Vue.component('Icon',Icon)
 
 new Vue({
   router,
