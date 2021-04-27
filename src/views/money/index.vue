@@ -1,6 +1,12 @@
 <template>
-    <div class="container">
-      首页
-    </div>  
+  <div class="container">
+    mmmm
+    <Nav/>
+  </div>
 </template>
 
+<script lang="ts">
+export default {
+  name:'Money'
+}
+</script>

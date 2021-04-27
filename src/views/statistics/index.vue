@@ -1,5 +1,12 @@
 <template>
-    <div class="container">
-      Statistics
-    </div>
+  <div class="container">
+    sssss
+    <Nav/>
+  </div>
 </template>
+
+<script lang="ts">
+export default {
+  name:'Statistics'
+}
+</script>
