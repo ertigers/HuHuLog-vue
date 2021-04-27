@@ -1,28 +1,44 @@
 <template>
-  <div class="nav">
-    <router-link to='/money'>
-      <Icon name="label" />
+  <nav class="nav">
+    <router-link class="item" active-class="selected" to="/money">
+      <Icon name="money" />
       记账
     </router-link>
-    <router-link to='/labels'>标签</router-link>
-    <router-link to='/statistics'>统计</router-link>
-  </div>
+    <router-link class="item" active-class="selected" to="/labels">
+      <Icon name="label" /> 
+      标签
+      </router-link>
+    <router-link class="item" active-class="selected" to="/statistics">
+      <Icon name="statistics" /> 
+      统计
+      </router-link>
+  </nav>
 </template>
 
 <script lang="ts">
-
-
-
-
 export default {
-  name:'Nav'
-}
-</script> 
+  name: "Nav",
+};
+</script>
 
 <style lang="scss" scoped>
 .nav {
-  border: 1px solid red;
   display: flex;
-  justify-content: space-between;
+  box-shadow: 0 0 3px rgba($color: #eeeeee, $alpha: 1.0);
+  justify-content: space-around;
+  font-size: 12px;
+  .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px 0;
+    .icon {
+      width: 28px;
+      height: 28px;
+    }
+  }
+  .selected {
+    color: red;
+  }
 }
 </style>
