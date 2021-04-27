@@ -1,7 +1,8 @@
 <template>
-  <div class="container">
-    llllll
-    <Nav/>
+  <div>
+    <Layout>
+      <p>你好LLLLLLL</p>
+    </Layout>
   </div>
 </template>
 
@@ -11,3 +12,6 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+
+</style>

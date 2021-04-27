@@ -1,7 +1,8 @@
 <template>
-  <div class="container">
-    sssss
-    <Nav/>
+  <div>
+    <Layout>
+      <p>你好SSSSSSS</p>
+    </Layout>
   </div>
 </template>
 
@@ -10,3 +11,7 @@ export default {
   name:'Statistics'
 }
 </script>
+
+<style lang="scss" scoped>
+
+</style>

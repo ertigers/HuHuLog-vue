@@ -10,10 +10,12 @@
 export default {
   name:'Nav'
 }
-</script>
+</script> 
 
 <style lang="scss" scoped>
 .nav {
   border: 1px solid red;
+  display: flex;
+  justify-content: space-between;
 }
 </style>

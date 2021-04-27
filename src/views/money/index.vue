@@ -1,7 +1,8 @@
 <template>
-  <div class="container">
-    mmmm
-    <Nav/>
+  <div>
+    <Layout>
+      <p>你好</p>
+    </Layout>
   </div>
 </template>
 
@@ -10,3 +11,7 @@ export default {
   name:'Money'
 }
 </script>
+
+<style lang="scss" scoped>
+
+</style>
