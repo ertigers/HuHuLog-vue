@@ -7,6 +7,7 @@
 </template>
 
 <script lang="ts">
+// import  from ''
 export default {
   name:'Nav'
 }
