@@ -22,9 +22,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/styles/helper.scss";
 .nav {
+  @extend %outerShadow;
   display: flex;
-  box-shadow: 0 0 3px rgba($color: #eeeeee, $alpha: 1.0);
   justify-content: space-around;
   font-size: 12px;
   .item {
