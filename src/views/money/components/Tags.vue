@@ -1,7 +1,7 @@
 <template>
   <div class="tags">
     <div class="tag-add">
-      <button>新增标签</button>
+      <button @click='create'>新增标签</button>
     </div>
     <ul class="tags-list">
       <li v-for="tag in tagData" :key="tag" @click="toogle(tag)" :class="selectedTags.indexOf(tag)>=0 && 'selected' ">{{tag}}</li>
@@ -13,7 +13,7 @@ import Vue from 'vue'
 import { Component,Prop } from 'vue-property-decorator'
 @Component
 export default class Tags extends Vue {
-  @Prop() tagData: string[] | undefined
+  @Prop() readonly tagData: string[] | undefined
   selectedTags: string[] = []
   toogle(tag:string) {
     const index = this.selectedTags.indexOf(tag)
@@ -21,6 +21,15 @@ export default class Tags extends Vue {
       this.selectedTags.splice(index,1)
     }else {
       this.selectedTags.push(tag)
+    }
+  }
+  create() {
+    const name = window.prompt("请输入标签名")
+    console.log(name);
+    if(name === '') {
+      window.alert('标签名为空')
+    }else if(this.tagData){
+      this.$emit('update:tagData', [...this.tagData,name])
     }
   }
 }
