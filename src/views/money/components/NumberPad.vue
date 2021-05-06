@@ -1,19 +1,61 @@
 <template>
   <div class="numberPad">
-    <div class="output">100</div>
+    <div class="output">{{ output || 1}}</div>
     <div class="buttons">
-      <button>1</button><button>2</button><button>3</button><button>+</button><button>删除</button>
-      <button>4</button><button>5</button><button>6</button><button>-</button><button>清空</button>
-      <button>7</button><button>8</button><button>9</button><button>*</button><button class="ok">OK</button>
-      <button>0</button><button>.</button><button>%</button><button>÷</button>
+      <button @click="inputContent">1</button>
+      <button @click="inputContent">2</button>
+      <button @click="inputContent">3</button>
+      <button @click="remove">删除</button>
+      <button @click="inputContent">4</button>
+      <button @click="inputContent">5</button>
+      <button @click="inputContent">6</button>
+      <button @click="clear">清空</button>
+      <button @click="inputContent">7</button>
+      <button @click="inputContent">8</button>
+      <button @click="inputContent">9</button>
+      <button @click="ok" class="ok">OK</button>
+      <button @click="inputContent">0</button>
+      <button @click="inputContent" class="dot">.</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  export default {
-    name:'NumberPad'
+import Vue from 'vue'
+import {Component,Prop} from 'vue-property-decorator'
+@Component
+export default class NumberPad extends Vue {
+  output = '0'
+  inputContent(event:MouseEvent) {
+    const button = (event.target as HTMLButtonElement)
+    const input = button.textContent!
+    if(this.output.length === 16) { return }
+    if(this.output === '0'){
+      if('0123456789'.indexOf(input) >=0 ) {
+        this.output = input
+      }else {
+        this.output += input
+      }
+      return
+    }
+    if(this.output.indexOf('.')>=0 && input === '.') { return }
+    this.output += input
   }
+  remove() {
+    if(this.output.length === 1) {
+      this.output = '0'
+    }else{
+      this.output = this.output.slice(0,-1)
+    }
+  }
+  clear() {
+    this.output = '0'
+  }
+  ok() {
+    this.clear()
+  }
+
+}
 </script>
 
 <style lang="scss" scoped>
@@ -26,11 +68,12 @@
     font-family: Consolas, monospace;
     padding: 9px 16px;
     text-align: right;
+    height: 72px
   }
   .buttons {
     @extend %clearFix;
     > button {
-      width: 20%;
+      width: 25%;
       height: 64px;
       background: transparent;
       border: none;
@@ -38,30 +81,27 @@
         height: 128px;
         float: right;
       }
+      &.dot {
+        width: 50%;
+      }
       $bg: #f2f2f2;
       &:nth-child(1) {
         background: $bg;
       }
-      &:nth-child(2),&:nth-child(6) {
+      &:nth-child(2),&:nth-child(5) {
         background: darken($bg,4%);
       }
-      &:nth-child(3),&:nth-child(7),&:nth-child(11) {
+      &:nth-child(3),&:nth-child(6),&:nth-child(9) {
         background: darken($bg,4*2%);
       }
-      &:nth-child(4),&:nth-child(8),&:nth-child(12),&:nth-child(16) {
+      &:nth-child(4),&:nth-child(7),&:nth-child(10),&:nth-child(13) {
         background: darken($bg,4*3%);
       }
-      &:nth-child(5),&:nth-child(9),&:nth-child(13),&:nth-child(17) {
-        background: darken($bg,4*4%);
-      }
-      &:nth-child(10),&:nth-child(14),&:nth-child(18) {
+      &:nth-child(8),&:nth-child(11),&:nth-child(14) {
         background: darken($bg,4*5%);
       }
-      &:nth-child(15) {
+      &:nth-child(12) {
         background: rgb(255, 159, 159);
-      }
-      &:nth-child(19) {
-        background: darken($bg,4*6%);
       }
     }
   }
