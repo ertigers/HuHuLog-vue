@@ -22,10 +22,10 @@ export default class Tags extends Vue {
     }else {
       this.selectedTags.push(tag)
     }
+    this.$emit('update:value',this.selectedTags)
   }
   create() {
     const name = window.prompt("请输入标签名")
-    console.log(name);
     if(name === '') {
       window.alert('标签名为空')
     }else if(this.tagData){
