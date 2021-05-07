@@ -10,7 +10,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import {Component, Watch} from 'vue-property-decorator'
-import model from '@/model.ts'
+import recordListModel from '@/models/recordListModel.js'
 
 import Notes from '@/views/money/components/Notes.vue';
 import NumberPad from '@/views/money/components/NumberPad.vue';
@@ -39,13 +39,13 @@ export default class Money extends Vue{
     this.record.notes = value
   }
   saveRecord() {
-    const record2:RecordItem = model.clone(this.record)
+    const record2:RecordItem = recordListModel.clone(this.record)
     record2.createdAt = new Date()
     this.recordList.push(record2)
   }
   @Watch('recordList')
   onRecordListChange() {
-    model.save(this.recordList)
+    recordListModel.save(this.recordList)
   }
 
 }
