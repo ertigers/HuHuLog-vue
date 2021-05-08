@@ -3,10 +3,10 @@
     <div class="navBar">
       <Icon class="leftIcon" name="left" @click="goBack"/>
       <span class="title">编辑标签</span>
-      <span class="rightIcon"></span>
+      <span class="rightIcon"/>
     </div>
     <div class="form-wrapper">
-      <FormItem :value="tag.name"
+      <FormItem :value="currentTag.name"
                 @update:value="update"
                 field-name="标签名" placeholder="请输入标签名"/>
     </div>
@@ -17,45 +17,41 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
-import FormItem from '@/components/FormItem.vue';
-import Button from '@/components/Button.vue';
-import oldStore from '@/store/index2';
-type Tag = {
-  id: string;
-  name: string;
-}
-
-@Component({
-  components: {Button, FormItem}
-})
-export default class EditLabel extends Vue {
-  tag?: Tag = undefined;
-  created() {
-    this.tag = oldStore.findTag(this.$route.params.id);
-    if (!this.tag) {
-      this.$router.replace('/404');
+  import Vue from 'vue';
+  import {Component} from 'vue-property-decorator';
+  import FormItem from '@/components/FormItem.vue';
+  import Button from '@/components/Button.vue';
+  @Component({
+    components: {Button, FormItem},
+  })
+  export default class EditLabel extends Vue {
+    get currentTag() {
+      return this.$store.state.currentTag;
     }
-  }
-  update(name: string) {
-    if (this.tag) {
-      oldStore.updateTag(this.tag.id, name);
-    }
-  }
-  remove() {
-    if (this.tag) {
-      if (oldStore.removeTag(this.tag.id)) {
-        this.$router.back();
-      } else {
-        window.alert('删除失败');
+    created() {
+      const id = this.$route.params.id;
+      this.$store.commit('fetchTags');
+      this.$store.commit('setCurrentTag', id);
+      if (!this.currentTag) {
+        this.$router.replace('/404');
       }
     }
+    update(name: string) {
+      if (this.currentTag) {
+        this.$store.commit('updateTag', {
+          id: this.currentTag.id, name
+        });
+      }
+    }
+    remove() {
+      if (this.currentTag) {
+        this.$store.commit('removeTag', this.currentTag.id);
+      }
+    }
+    goBack() {
+      this.$router.back();
+    }
   }
-  goBack() {
-    this.$router.back();
-  }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -67,7 +63,8 @@ export default class EditLabel extends Vue {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
+    > .title {
+    }
     > .leftIcon {
       width: 24px;
       height: 24px;
