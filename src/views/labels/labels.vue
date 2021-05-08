@@ -18,22 +18,23 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
-  import Button from '@/components/Button.vue';
-  import oldStore from '@/store/index2';
-  @Component({
-    components: {Button}
-  })
-  export default class Labels extends Vue {
-    tags = oldStore.tagList; // 知识点1
-    createTag() {
-      const name = window.prompt('请输出标签名');
-      if (name) {
-        oldStore.createTag(name);
-      }
+import {Component} from 'vue-property-decorator';
+import Button from '@/components/Button.vue';
+import { mixins } from 'vue-class-component';
+import TagHelper from '@/mixins/TagHelper';
+@Component({
+  components: {Button},
+  computed:{
+    tags(){
+      return this.$store.state.tagList
     }
   }
+})
+export default class Labels extends mixins(TagHelper) {
+  created() {
+    this.$store.commit('fetchTags')
+  }
+}
 </script>
 
 <style lang="scss" scoped>
