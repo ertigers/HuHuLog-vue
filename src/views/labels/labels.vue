@@ -21,16 +21,16 @@
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
   import Button from '@/components/Button.vue';
-  import store from '@/store/index2';
+  import oldStore from '@/store/index2';
   @Component({
     components: {Button}
   })
   export default class Labels extends Vue {
-    tags = store.tagList; // 知识点1
+    tags = oldStore.tagList; // 知识点1
     createTag() {
       const name = window.prompt('请输出标签名');
       if (name) {
-        store.createTag(name);
+        oldStore.createTag(name);
       }
     }
   }

@@ -18,8 +18,6 @@ import NumberPad from '@/views/money/components/NumberPad.vue';
 import Tags from '@/views/money/components/Tags.vue';
 import Types from '@/views/money/components/Types.vue';
 
-import store from '@/store/index2';
-
 // vscode代码检测有问题，已经在全局声明了type，代码检测过不去
 type RecordItem = {
   tags:string[]
@@ -29,17 +27,29 @@ type RecordItem = {
   createdAt?:Date
 }
 
-@Component({components:{NumberPad, Tags, Types, FormItem}})
+@Component({
+  components:{NumberPad, Tags, Types, FormItem},
+  computed:{
+    recordList() {
+      return this.$store.state.recordList
+    }
+  }
+})
 export default class Money extends Vue {
-  recordList = store.recordList;
   record: RecordItem = {
     tags: [], notes: '', type: '-', amount: 0
   };
+  created() {
+   this.$store.commit('fetchRecords')
+  }
   onUpdateNotes(value: string) {
     this.record.notes = value;
   }
   saveRecord() {
-    store.createRecord(this.record);
+    console.log(this.record);
+    this.$store.commit('createRecord',this.record);
+    console.log(this.$store.state.recordList);
+    
   }
 }
 </script>
