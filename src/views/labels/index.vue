@@ -20,19 +20,16 @@
 // <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-  import tagListModel from '@/models/tagListModel.js';
-  import Button from '@/views/labels/components/Button.vue';
+  import tagListModel from '@/models/tagListModel';
+  import Button from '@/components/Button.vue';
   tagListModel.fetch();
   @Component({components: {Button}})
   export default class Labels extends Vue {
     tags = tagListModel.data;
     createTag() {
       const name = window.prompt('请输出标签名');
-      console.log(name);
-      
       if (name) {        
         const message = tagListModel.create(name);
-        console.log(message);
         if (message === 'duplicated') {
           window.alert('标签名重复了');
         } else if (message === 'success') {

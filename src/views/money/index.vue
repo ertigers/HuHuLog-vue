@@ -2,7 +2,9 @@
   <Layout class-prefix="layout">
     <NumberPad :value.sync='record.amount' @submit="saveRecord"/>
     <Types :value.sync='record.type'/>
-    <Notes @update:value="onUpdateNotes"/>
+    <div class="notes">
+      <FormItem field-name="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes"/>
+    </div>
     <Tags :tag-data.sync="tags" @update:value="onUpdateTags"/>
   </Layout>
 </template>
@@ -10,9 +12,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import {Component, Watch} from 'vue-property-decorator'
-import recordListModel from '@/models/recordListModel.js'
+import recordListModel from '@/models/recordListModel'
 
-import Notes from '@/views/money/components/Notes.vue';
+import FormItem from '@/components/FormItem.vue';
 import NumberPad from '@/views/money/components/NumberPad.vue';
 import Tags from '@/views/money/components/Tags.vue';
 import Types from '@/views/money/components/Types.vue';
@@ -25,7 +27,7 @@ type RecordItem = {
   createdAt?:Date
 }
 
-@Component({components:{NumberPad, Tags, Types, Notes}})
+@Component({components:{NumberPad, Tags, Types, FormItem}})
 export default class Money extends Vue{
   tags: string[] =['衣','食','住','行'] 
   record: RecordItem = {
@@ -59,5 +61,7 @@ export default class Money extends Vue{
 </style>
 
 <style lang="scss" scoped>
-
+  .notes {
+    padding: 12px 0;
+  }
 </style>
