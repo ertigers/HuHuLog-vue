@@ -5,24 +5,22 @@
     <div class="notes">
       <FormItem field-name="备注" placeholder="在这里输入备注" @update:value="onUpdateNotes"/>
     </div>
-    <Tags :tag-data.sync="tags" @update:value="onUpdateTags"/>
+    <Tags />
   </Layout>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import {Component, Watch} from 'vue-property-decorator'
-import recordListModel from '@/models/recordListModel'
-import tagListModel from '@/models/tagListModel';
+import {Component} from 'vue-property-decorator'
 
 import FormItem from '@/components/FormItem.vue';
 import NumberPad from '@/views/money/components/NumberPad.vue';
 import Tags from '@/views/money/components/Tags.vue';
 import Types from '@/views/money/components/Types.vue';
 
-const recordList = recordListModel.fetch();
-const tagList = tagListModel.fetch();
+import store from '@/store/index2';
 
+// vscode代码检测有问题，已经在全局声明了type，代码检测过不去
 type RecordItem = {
   tags:string[]
   notes:string
@@ -32,29 +30,17 @@ type RecordItem = {
 }
 
 @Component({components:{NumberPad, Tags, Types, FormItem}})
-export default class Money extends Vue{
-  tags = tagList;
-  recordList:RecordItem[] = recordList;
-
+export default class Money extends Vue {
+  recordList = store.recordList;
   record: RecordItem = {
-    tags:[],notes:'',type:'-',amount:0,
-  }
-  onUpdateTags(value:string[]) {
-    this.record.tags = value
-  }
-  onUpdateNotes(value:string){
-    this.record.notes = value
+    tags: [], notes: '', type: '-', amount: 0
+  };
+  onUpdateNotes(value: string) {
+    this.record.notes = value;
   }
   saveRecord() {
-    const record2:RecordItem = recordListModel.clone(this.record)
-    record2.createdAt = new Date()
-    this.recordList.push(record2)
+    store.createRecord(this.record);
   }
-  @Watch('recordList')
-  onRecordListChange() {
-    recordListModel.save(this.recordList)
-  }
-
 }
 </script>
 

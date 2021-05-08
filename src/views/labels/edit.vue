@@ -8,8 +8,7 @@
     <div class="form-wrapper">
       <FormItem :value="tag.name"
                 @update:value="update"
-                field-name="标签名" 
-                placeholder="请输入标签名"/>
+                field-name="标签名" placeholder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
       <Button @click="remove">删除标签</Button>
@@ -18,46 +17,45 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
-  import tagListModel from '@/models/tagListModel';
-  import FormItem from '@/components/FormItem.vue';
-  import Button from '@/components/Button.vue';
-  @Component({
-    components: {Button, FormItem}
-  })
-  export default class EditLabel extends Vue {
-    tag?: { id: string, name: string } = undefined;
-    created() {
-      const id = this.$route.params.id;
-      tagListModel.fetch();
-      const tags = tagListModel.data;
-      const tag = tags.filter(t => t.id === id)[0];
-      if (tag) {
-        this.tag = tag;
-      } else {
-        this.$router.replace('/404');
-      }
-    }
-    update(name: string) {
-      if (this.tag) {
-        tagListModel.update(this.tag.id, name);
-      }
-    }
-    remove() {
-      if (this.tag) {
-        if (tagListModel.remove(this.tag.id)) {
-          this.$router.back();
-        } else {
-          window.alert('删除失败');
-        }
-      }
-    }
-    goBack() {
-      console.log("22");
-      this.$router.back();
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+import FormItem from '@/components/FormItem.vue';
+import Button from '@/components/Button.vue';
+import store from '@/store/index2';
+type Tag = {
+  id: string;
+  name: string;
+}
+
+@Component({
+  components: {Button, FormItem}
+})
+export default class EditLabel extends Vue {
+  tag?: Tag = undefined;
+  created() {
+    this.tag = store.findTag(this.$route.params.id);
+    if (!this.tag) {
+      this.$router.replace('/404');
     }
   }
+  update(name: string) {
+    if (this.tag) {
+      store.updateTag(this.tag.id, name);
+    }
+  }
+  remove() {
+    if (this.tag) {
+      if (store.removeTag(this.tag.id)) {
+        this.$router.back();
+      } else {
+        window.alert('删除失败');
+      }
+    }
+  }
+  goBack() {
+    this.$router.back();
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -69,6 +67,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     > .leftIcon {
       width: 24px;
       height: 24px;
