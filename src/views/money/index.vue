@@ -13,11 +13,15 @@
 import Vue from 'vue'
 import {Component, Watch} from 'vue-property-decorator'
 import recordListModel from '@/models/recordListModel'
+import tagListModel from '@/models/tagListModel';
 
 import FormItem from '@/components/FormItem.vue';
 import NumberPad from '@/views/money/components/NumberPad.vue';
 import Tags from '@/views/money/components/Tags.vue';
 import Types from '@/views/money/components/Types.vue';
+
+const recordList = recordListModel.fetch();
+const tagList = tagListModel.fetch();
 
 type RecordItem = {
   tags:string[]
@@ -29,11 +33,12 @@ type RecordItem = {
 
 @Component({components:{NumberPad, Tags, Types, FormItem}})
 export default class Money extends Vue{
-  tags: string[] =['衣','食','住','行'] 
+  tags = tagList;
+  recordList:RecordItem[] = recordList;
+
   record: RecordItem = {
     tags:[],notes:'',type:'-',amount:0,
   }
-  recordList: RecordItem[] = []
   onUpdateTags(value:string[]) {
     this.record.tags = value
   }

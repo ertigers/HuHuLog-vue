@@ -4,7 +4,7 @@
       <button @click='create'>新增标签</button>
     </div>
     <ul class="tags-list">
-      <li v-for="tag in tagData" :key="tag" @click="toogle(tag)" :class="selectedTags.indexOf(tag)>=0 && 'selected' ">{{tag}}</li>
+      <li v-for="tag in tagData" :key="tag.id" @click="toogle(tag)" :class="selectedTags.indexOf(tag)>=0 && 'selected' ">{{tag.name}}</li>
     </ul>
   </div>
 </template>
@@ -40,6 +40,7 @@ export default class Tags extends Vue {
 </script>
 <style lang='scss' scoped>
 .tags {
+  flex-grow: 1;
   font-size: 14px;
   padding: 16px;
   display: flex;
