@@ -8,7 +8,8 @@
     <div class="form-wrapper">
       <FormItem :value="currentTag.name"
                 @update:value="update"
-                field-name="标签名" placeholder="请输入标签名"/>
+                field-name="标签名" 
+                placeholder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
       <Button @click="remove">删除标签</Button>
@@ -63,8 +64,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    > .title {
-    }
+
     > .leftIcon {
       width: 24px;
       height: 24px;
